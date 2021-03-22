@@ -23,7 +23,7 @@ final class ForwardingWKNavigationDelegate: NSObject {
     }
 
     if
-      #available(iOSApplicationExtension 13.0, *, OSXApplicationExtension 10.15, *),
+      #available(iOS 13.0, *, macOS 10.15, *),
       decidePolicy13 == aSelector,
       original?.responds(to: aSelector) != true
     {
@@ -48,7 +48,7 @@ final class ForwardingWKNavigationDelegate: NSObject {
 }
 
 extension ForwardingWKNavigationDelegate: WKNavigationDelegate {
-  @available(iOSApplicationExtension 13.0, *, OSXApplicationExtension 10.15, *)
+  @available(iOS 13.0, *, macOS 10.15, *)
   func webView(
     _ webView: WKWebView,
     decidePolicyFor navigationAction: WKNavigationAction,
@@ -96,7 +96,7 @@ extension ForwardingWKNavigationDelegate: WKNavigationDelegate {
     finish()
   }
 
-  @available(OSXApplicationExtension 10.11, *)
+  @available(macOS 10.11, *)
   func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
     original?.webViewWebContentProcessDidTerminate?(webView)
     finish()
@@ -108,7 +108,7 @@ fileprivate let decidePolicyPre13 = #selector(WKNavigationDelegate.webView(_:dec
   (WKWebView, WKNavigationAction, @escaping (WKNavigationActionPolicy) -> Void) -> Void
 )?)
 
-@available(iOSApplicationExtension 13.0, *, OSXApplicationExtension 10.15, *)
+@available(iOS 13.0, *, macOS 10.15, *)
 fileprivate let decidePolicy13 = #selector(WKNavigationDelegate.webView(_:decidePolicyFor:preferences:decisionHandler:))
 
 fileprivate var interceptedSelectors: Set<Selector> = {
@@ -119,11 +119,11 @@ fileprivate var interceptedSelectors: Set<Selector> = {
     decidePolicyPre13,
   ]
 
-  if #available(iOSApplicationExtension 13.0, *, OSXApplicationExtension 10.15, *) {
+  if #available(iOS 13.0, *, macOS 10.15, *) {
     selectors.insert(decidePolicy13)
   }
 
-  if #available(iOSApplicationExtension 8.0, *, OSXApplicationExtension 10.11, *) {
+  if #available(iOS 8.0, *, macOS 10.11, *) {
     selectors.insert(#selector(WKNavigationDelegate.webViewWebContentProcessDidTerminate(_:)))
   }
   return selectors
