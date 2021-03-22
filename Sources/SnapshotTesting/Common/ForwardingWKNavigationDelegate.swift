@@ -83,9 +83,7 @@ extension ForwardingWKNavigationDelegate: WKNavigationDelegate {
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     original?.webView?(webView, didFinish: navigation)
-    webView.evaluateJavaScript("document.readyState") { [weak self] _, _ in
-      self?.finish()
-    }
+    self?.finish()
   }
 
   func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
