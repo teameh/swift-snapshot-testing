@@ -83,7 +83,7 @@ extension ForwardingWKNavigationDelegate: WKNavigationDelegate {
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     original?.webView?(webView, didFinish: navigation)
-    self?.finish()
+    finish()
   }
 
   func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
